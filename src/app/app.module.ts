@@ -8,6 +8,20 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+
+const config = {
+  apiKey: 'AIzaSyDuqtbz9GpMbZijT87K0-EdcVu_9dp6WKs',
+    authDomain: 'moneyshare-8ff10.firebaseapp.com',
+    projectId: 'moneyshare-8ff10',
+    storageBucket: 'moneyshare-8ff10.appspot.com',
+    messagingSenderId: '263153666784',
+    appId: '1:263153666784:web:05df18a3cc2de43fdd5e85',
+    measurementId: 'G-6JD8RZF1SG'
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +32,10 @@ import { HomeComponent } from './components/home/home.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AngularFireModule.initializeApp(config),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
