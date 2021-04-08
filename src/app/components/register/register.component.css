@@ -1,0 +1,40 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-image: linear-gradient(to bottom right, blue, cyan);
+    height: 100vh;
+  }
+  #login .container #login-row #login-column #login-box {
+    margin-top: 120px;
+    max-width: 600px;
+    height: 320px;
+    color: white;
+  }
+
+  ::placeholder{
+    color: white;
+  }
+  #login .container #login-row #login-column #login-box #login-form {
+    padding: 20px;
+    color: white;
+  }
+  #login .container #login-row #login-column #login-box #login-form #register-link {
+    margin-top: -85px;
+    color: white;
+  }
+
+  .gaa-img{
+    height: 100px;
+    width: 200px;
+    margin-top: 25px;
+    
+  }
+
+  .gaa-logo{
+    justify-content: center;
+    display: flex;
+  }
+
+.text-right{
+    padding-left: 275px;
+}
