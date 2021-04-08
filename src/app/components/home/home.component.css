@@ -37,3 +37,8 @@
     width: 150px;
     border-radius: 50%;
   }
+
+  #leftIMG{
+    border-radius: 0;
+    
+  }

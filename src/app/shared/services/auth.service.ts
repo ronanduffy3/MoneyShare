@@ -7,6 +7,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import {AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { first } from 'rxjs/operators';
 
+import { UserDataService } from '../services/user-data.service';
 import { LoginStateService } from '../services/login-state.service';
 
 import { Observable, of, Subject } from 'rxjs';
@@ -20,19 +21,20 @@ export class AuthService {
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
     private router: Router,
-    private logIn: LoginStateService
+    private logIn: LoginStateService,
+    private uds: UserDataService
   ) {}
 
   private user = new Subject<User>();
   public user$ = this.user.asObservable();
 
   // Method #1
-  SignUp(email, password, username) {
+  SignUp(email, password, username, displayname) {
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
         console.log(result.user);
-        this.SetUserData(result.user, username);
+        this.SetUserData(result.user, username, displayname);
       })
       .catch((error) => {
         window.alert(error.message);
@@ -48,14 +50,14 @@ export class AuthService {
   }
 
   // Method #3
-  SetUserData(user, newUsername) {
+  SetUserData(user, newUsername, displayname) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
     );
     const userData: User = {
       uid: user.uid,
       email: user.email,
-      displayName: user.displayName,
+      displayName: displayname,
       emailVerified: user.emailVerified,
       username: newUsername,
       roles: {
@@ -84,7 +86,8 @@ export class AuthService {
       .then((result) => {
         const user = result.user;
         this.setUser(user);
-        alert('Welcome, ' + result.user.displayName.toString());
+        console.log(this.uds.getUserData());
+        alert('Welcome, ' + "placeholder");
       })
       .catch((error) => {
         window.alert(error.message);
@@ -106,4 +109,8 @@ export class AuthService {
   async getUser() {
     return this.afAuth.authState.pipe(first()).toPromise();
   }
+
+  // Method #10
+  
+
 }

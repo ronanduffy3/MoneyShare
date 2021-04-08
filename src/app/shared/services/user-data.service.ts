@@ -26,4 +26,6 @@ export class UserDataService {
         const userObject = null;
         this.userData.next(userObject);
       }
+    });
+}
 }
