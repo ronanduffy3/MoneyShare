@@ -4,89 +4,41 @@ import { Router } from '@angular/router';
 
 import firebase from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import {AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
-import { Observable, of } from 'rxjs';
+import { LoginStateService } from '../services/login-state.service';
+
+import { Observable, of, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
-  user$: Observable<User>;
-
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
-    private router: Router
-  ) {
-    this.user$ = this.afAuth.authState.pipe(
-      switchMap(user => {
-        if (user) {
-          return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
-        } else {
-          return of(null);
-        }
-      })
-    );
-   }
+    private router: Router,
+    private logIn: LoginStateService
+  ) {}
 
-   updateUsername(username: string, uid: string) {
+  private user = new Subject<User>();
+  public user$ = this.user.asObservable();
 
-    const data = {};
-    data[username] = uid;
-
-    console.log(data);
-
-    this.afs.collection(`/usernames`).add(data);
-  }
-
-
-   SignUp(email, password, username) {
-    return this.afAuth.createUserWithEmailAndPassword(email, password)
-    .then((result) => {
-      /* Call the SendVerificaitonMail() function when new user sign
-      up and returns promise */
-      console.log(result.user);
-      this.SetUserData(result.user, username);
-
-    }).catch((error) => {
-      window.alert(error.message);
-    });
-   }
-
-   SetUserData(user, newUsername) {
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
-    const userData: User = {
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName,
-      emailVerified: user.emailVerified,
-      username: newUsername,
-      roles: {
-        subscriber: false
-      }
-    };
-    this.updateUsername(newUsername, userData.uid);
-    return userRef.set(userData, {
-      merge: true
-    });
-  }
-
-  SignIn(email, password) {
-    return this.afAuth.signInWithEmailAndPassword(email, password)
+  // Method #1
+  SignUp(email, password, username) {
+    return this.afAuth
+      .createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        alert('Welcome, ' + result.user.displayName.toString());
-      }).catch((error) => {
+        console.log(result.user);
+        this.SetUserData(result.user, username);
+      })
+      .catch((error) => {
         window.alert(error.message);
       });
   }
 
-  SignOut() {
-    this.afAuth.signOut();
-  }
-
+  // Method #2
   async SendVerificationMail() {
     (await this.afAuth.currentUser).sendEmailVerification().then(() => {
       console.log('Email Sent');
@@ -94,5 +46,60 @@ export class AuthService {
     });
   }
 
+  // Method #3
+  SetUserData(user, newUsername) {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `users/${user.uid}`
+    );
+    const userData: User = {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      emailVerified: user.emailVerified,
+      username: newUsername,
+      roles: {
+        subscriber: false,
+      },
+    };
+    this.updateUsername(newUsername, userData.uid);
+    return userRef.set(userData, {
+      merge: true,
+    });
+  }
 
+  // Method #4
+  updateUsername(username: string, uid: string) {
+    // Create a data object, and then tie it together and push to a colection in the database this allows for no duplication
+    const data = {};
+    data[username] = uid;
+    // Pushs to the collection
+    this.afs.collection(`/usernames`).add(data);
+  }
+
+  // Method #5
+  SignIn(email, password): Promise< void > {
+    return this.afAuth
+      .signInWithEmailAndPassword(email, password)
+      .then((result) => {
+        const user = result.user;
+        this.setUser(user);
+        alert('Welcome, ' + result.user.displayName.toString());
+      })
+      .catch((error) => {
+        window.alert(error.message);
+      });
+  }
+
+  // Method #6
+  setUser(user: any): void {
+    console.log('user', user);
+    this.logIn.setUserStatus();
+    console.log(this.afAuth.authState.subscribe(d => d.email.toString()).unsubscribe);
+    this.user.next(user);
+  }
+
+  // Method 7
+  SignOut() {
+    this.afAuth.signOut();
+  }
 }
