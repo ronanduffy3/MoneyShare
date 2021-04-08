@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import firebase from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import {AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { first } from 'rxjs/operators';
 
 import { LoginStateService } from '../services/login-state.service';
 
@@ -98,8 +99,15 @@ export class AuthService {
     this.user.next(user);
   }
 
-  // Method 7
+  // Method #7
   SignOut() {
     this.afAuth.signOut();
   }
+
+  // Method #9
+  async getUser() {
+    return this.afAuth.authState.pipe(first()).toPromise();
+  }
+
+
 }
