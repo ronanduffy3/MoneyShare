@@ -4,7 +4,7 @@ export interface User {
     uid: string;
     email: string;
     displayName: string;
-    username: string;
+    username?: string;
     emailVerified: boolean;
     roles: Roles;
 }

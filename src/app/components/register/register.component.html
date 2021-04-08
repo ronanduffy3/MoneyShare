@@ -9,13 +9,16 @@
                                 <img src="../../../assets/moneyshare.png" style="margin-bottom: 25px;" class="gaa-img">
                             </div>
                             <div class="form-group">
-                                <input type="text" name="username" id="username" style="background-color: slateblue; color: white;" class="form-control" placeholder="🧍 Email:" #userName required>
+                                <input type="text" name="email" id="email" style="background-color: slateblue; color: white;" class="form-control" placeholder="🧍 Email:" #email required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="username" id="username" style="background-color: slateblue; color: white;" class="form-control" placeholder="💲 Username:" #username required>
                             </div>
                             <div class="form-group">
                                 <input type="text" type="password" style="background-color: slateblue; color: white;" id="password" class="form-control" placeholder="🔒 Password:" #userPassword required>
                             </div>
                             <div class="form-group">
-                                <input type="button" name="submit" value="Login" class="btn btn-info btn-md w-100">
+                                <input type="button" name="submit" value="Login" class="btn btn-info btn-md w-100" (click)="auth.SignUp(email.value, userPassword.value, username.value)">
                             </div>
                         </form>
                     </div>

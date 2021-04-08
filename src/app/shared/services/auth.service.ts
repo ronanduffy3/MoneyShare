@@ -32,13 +32,14 @@ export class AuthService {
     );
    }
 
-   updateUsername(username: string) {
+   updateUsername(username: string, uid: string) {
 
-    let data = {};
-    data[username] = this.user$.subscribe(d => d.uid);
+    const data = {};
+    data[username] = uid;
 
-    this.afs.doc(`/users/${this.user$.subscribe(d => d.uid)}`).update({'username': username});
-    this.afs.doc(`/usernames`).update(data);
+    console.log(data);
+
+    this.afs.collection(`/usernames`).add(data);
   }
 
 
@@ -47,27 +48,27 @@ export class AuthService {
     .then((result) => {
       /* Call the SendVerificaitonMail() function when new user sign
       up and returns promise */
-      this.updateUsername(username);
-      this.SendVerificationMail();
-      this.SetUserData(result.user);
+      console.log(result.user);
+      this.SetUserData(result.user, username);
 
     }).catch((error) => {
       window.alert(error.message);
     });
    }
 
-   SetUserData(user) {
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`Users/${user.uid}`);
+   SetUserData(user, newUsername) {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
     const userData: User = {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
       emailVerified: user.emailVerified,
-      username: user.username,
+      username: newUsername,
       roles: {
         subscriber: false
       }
     };
+    this.updateUsername(newUsername, userData.uid);
     return userRef.set(userData, {
       merge: true
     });
