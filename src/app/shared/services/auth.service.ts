@@ -74,6 +74,19 @@ export class AuthService {
     });
   }
 
+  SignIn(email, password) {
+    return this.afAuth.signInWithEmailAndPassword(email, password)
+      .then((result) => {
+        alert('Welcome, ' + result.user.displayName.toString());
+      }).catch((error) => {
+        window.alert(error.message);
+      });
+  }
+
+  SignOut() {
+    this.afAuth.signOut();
+  }
+
   async SendVerificationMail() {
     (await this.afAuth.currentUser).sendEmailVerification().then(() => {
       console.log('Email Sent');
