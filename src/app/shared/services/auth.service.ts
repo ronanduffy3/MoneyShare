@@ -93,9 +93,7 @@ export class AuthService {
 
   // Method #6
   setUser(user: any): void {
-    console.log('user', user);
     this.logIn.setUserStatus();
-    console.log(this.afAuth.authState.subscribe(d => d.email.toString()).unsubscribe);
     this.user.next(user);
   }
 
@@ -108,6 +106,4 @@ export class AuthService {
   async getUser() {
     return this.afAuth.authState.pipe(first()).toPromise();
   }
-
-
 }

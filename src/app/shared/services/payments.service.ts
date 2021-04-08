@@ -10,5 +10,7 @@ export class PaymentsService {
   userId: string;
   membership: any;
 
-  constructor(private db: AngularFirestore, private auth: AngulareFireAuth) { }
+  constructor(private db: AngularFirestore, private auth: AngularFireAuth) { 
+    
+  }
 }
