@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '../interfaces/user';
-import { Router } from '@angular/router';
+import { Router, RouterEvent } from '@angular/router';
 
 import firebase from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -61,7 +61,7 @@ export class AuthService {
       emailVerified: user.emailVerified,
       username: newUsername,
       roles: {
-        subscriber: false,
+        admin: false,
       },
     };
     this.updateUsername(newUsername, userData.uid);
@@ -86,8 +86,7 @@ export class AuthService {
       .then((result) => {
         const user = result.user;
         this.setUser(user);
-        console.log(this.uds.getUserData());
-        alert('Welcome, ' + "placeholder");
+        this.router.navigate(['/profile']);
       })
       .catch((error) => {
         window.alert(error.message);
