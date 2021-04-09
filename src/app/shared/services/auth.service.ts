@@ -110,5 +110,32 @@ export class AuthService {
   }
 
   // Method #10
-  
+  private checkRole(user: User, allowRoles: string[]): boolean {
+    if (!user) {
+      return false;
+    }
+    for (const role of allowRoles) {
+      if (user.roles[role]) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // Authorization Methods
+  canRead(user: User): boolean {
+    const allowed = ['admin', 'user'];
+    return this.checkRole(user, allowed);
+  }
+
+  canEdit(user: User): boolean {
+    const allowed = ['admin'];
+    return this.checkRole(user, allowed);
+  }
+
+  canDelete(user: User): boolean {
+    const allowed = ['admin'];
+    return this.checkRole(user, allowed);
+  }
+
 }

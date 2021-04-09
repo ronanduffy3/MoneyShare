@@ -12,12 +12,33 @@ export class HeaderComponent implements OnInit {
 
   constructor(public auth: AuthService, public stateService: LoginStateService, public router: Router) { }
 
+  isLoggedin = false;
+
   ngOnInit(): void {
+    this.setLoggedInState();
+    console.log(this.isLoggedin);
+
   }
 
   SignOut() {
     this.auth.SignOut();
     this.router.navigate(['/home']);
+  }
+
+  setLoggedInState(): void {
+    const isLoggedin = this.stateService.isLoggedIn$.toPromise().then((result) => {
+      if (result) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    if (isLoggedin) {
+      this.isLoggedin = true;
+    } else {
+      this.isLoggedin = false;
+    }
+
   }
 
 

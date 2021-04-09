@@ -6,6 +6,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { DepositComponent } from './components/deposit/deposit.component';
 import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
@@ -18,7 +19,9 @@ const routes: Routes = [
   {path: 'deposit', component: DepositComponent, canActivate: [AngularFireAuthGuard],
   data: { authGuardPipe: redirectUnauthorizedToLogin }},
   {path: 'profile', component: ProfileComponent, canActivate: [AngularFireAuthGuard],
-  data: { authGuardPipe: redirectUnauthorizedToLogin }}
+  data: { authGuardPipe: redirectUnauthorizedToLogin }},
+  {path: 'ticket', component: ContactComponent, canActivate: [AngularFireAuthGuard],
+  data: { authGuardPipe: redirectUnauthorizedToLogin }},
 ];
 
 @NgModule({
