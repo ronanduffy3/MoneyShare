@@ -12,6 +12,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { DepositComponent } from './components/deposit/deposit.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const config = {
   apiKey: 'AIzaSyDuqtbz9GpMbZijT87K0-EdcVu_9dp6WKs',
@@ -30,7 +31,8 @@ const config = {
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    DepositComponent
+    DepositComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

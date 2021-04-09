@@ -13,15 +13,16 @@ export class LoginStateService {
   public isLoggedIn$ = this.isLoggedIn.asObservable();
 
   setUserStatus(): void {
-    this.auth.authState.subscribe((auth) => {
-      if (auth) {
+    const authState$ = this.auth.authState.toPromise();
+    if (authState$ === null || 'unknown' || 'undefined') {
         this.isLoggedIn.next(true);
       } else {
         this.isLoggedIn.next(false);
       }
-    });
-  }
+    }
+
   signOut(): void {
     this.auth.signOut();
   }
 }
+

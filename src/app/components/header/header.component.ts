@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from '../../shared/services/auth.service';
+import { AuthService } from '../../shared/services/auth.service';
+import { LoginStateService } from '../../shared/services/login-state.service';
 
 @Component({
   selector: 'app-header',
@@ -8,14 +9,16 @@ import {AuthService} from '../../shared/services/auth.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public auth: AuthService) { }
+  constructor(public auth: AuthService, public stateService: LoginStateService) { }
+
+  isLoggedIn = true;
 
   ngOnInit(): void {
   }
 
   SignOut() {
-    console.log("Signout out")
     this.auth.SignOut();
   }
+
 
 }
