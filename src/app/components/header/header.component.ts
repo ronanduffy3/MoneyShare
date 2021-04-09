@@ -11,8 +11,6 @@ export class HeaderComponent implements OnInit {
 
   constructor(public auth: AuthService, public stateService: LoginStateService) { }
 
-  isLoggedIn = true;
-
   ngOnInit(): void {
   }
 
