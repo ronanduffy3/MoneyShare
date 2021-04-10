@@ -28,7 +28,7 @@
             <a class="nav-link" routerLink="/profile">Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" (click)="SignOut()">Sign Out</a>
+            <a class="nav-link" *ngIf="!isLoggedin" (click)="SignOut()">Sign Out</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" routerLink="/ticket">Report</a>

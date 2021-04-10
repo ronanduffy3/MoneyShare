@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginStateService } from 'src/app/shared/services/login-state.service';
 import { UserDataService } from 'src/app/shared/services/user-data.service';
 import { User } from '../../shared/interfaces/user';
 
@@ -10,12 +11,31 @@ import { User } from '../../shared/interfaces/user';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(public uds: UserDataService, public router: Router) { }
+  constructor(public uds: UserDataService, public router: Router, public stateService: LoginStateService) { }
 
+  isLoggedIn: boolean;
   publicUser: any;
 
   ngOnInit(): void {
+    this.setLoggedInState();
     this.setUser();
+    console.log(this.isLoggedIn);
+  }
+
+  setLoggedInState(): void {
+    const isLoggedin = this.stateService.isLoggedIn$.toPromise().then((result) => {
+      if (result) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    if (isLoggedin) {
+      this.isLoggedIn = true;
+    } else {
+      this.isLoggedIn = false;
+    }
+
   }
 
   async setUser(): Promise<void> {

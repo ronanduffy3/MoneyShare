@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(public auth: AuthService, public stateService: LoginStateService, public router: Router) { }
 
-  isLoggedin = false;
+  isLoggedin: boolean;
 
   ngOnInit(): void {
     this.setLoggedInState();
