@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { TicketsService } from 'src/app/shared/services/tickets.service';
 
 @Component({
@@ -8,9 +9,13 @@ import { TicketsService } from 'src/app/shared/services/tickets.service';
 })
 export class ContactComponent implements OnInit {
 
-  constructor(public tService: TicketsService) { }
+  constructor(public tService: TicketsService, public auth: AuthService) { }
 
   ngOnInit(): void {
+  }
+
+  submitTicket(title: string, body: string, uid: string) {
+    this.tService.createTicket(title, body, uid);
   }
 
 }

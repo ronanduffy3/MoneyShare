@@ -3,4 +3,5 @@ export interface Ticket {
     body: string;
     uid?: string;
     id?: number;
+    completed: boolean;
 }

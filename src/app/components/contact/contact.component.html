@@ -14,8 +14,8 @@
                             <div class="form-group">
                                 <input type="text" style="margin-left:-120px; background-color: slateblue; color: white; height: 250px; width: 700px;" id="ticketBody" class="form-control" placeholder="📧 Ticket Body: Please write a detailed description of the problem that you are having. Include all details and information on how to recreate the error." #body required>
                             </div>
-                            <div class="form-group">
-                                <input type="button" name="submit" value="Login" class="btn btn-info btn-md w-100" (click)="tService.createTicket(title.value, body.value)">
+                            <div class="form-group" *ngIf="auth.user$ | async as user">
+                                <input type="button" name="submit" value="Login" class="btn btn-info btn-md w-100" (click)="submitTicket(title.value, body.value, user.uid)">
                             </div>
                         </form>
                     </div>

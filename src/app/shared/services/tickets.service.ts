@@ -16,7 +16,7 @@ export class TicketsService {
     return this.fireStore.collection('tickets').snapshotChanges();
   }
 
-  createTicket(tTitle: string, tBody: string) {
+  createTicket(tTitle: string, tBody: string, tUid: string) {
 
     this.fireStore.collection('tickets').valueChanges().subscribe(result => {
       this.documentCounter = result.length + 1;
@@ -25,7 +25,9 @@ export class TicketsService {
     this.ticketToAdd = {
       title : tTitle,
       body : tBody,
-      id : 1
+      uid: tUid,
+      id : this.documentCounter,
+      completed: false
     };
 
     return this.fireStore.collection('tickets').add(this.ticketToAdd);

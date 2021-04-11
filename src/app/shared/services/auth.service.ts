@@ -23,7 +23,15 @@ export class AuthService {
     private router: Router,
     private logIn: LoginStateService,
     private uds: UserDataService
-  ) {}
+  ) {
+    this.user$ = this.afAuth.authState.pipe(switchMap(user => {
+      if (user) {
+        return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
+      } else {
+        return of(null);
+      }
+    }));
+  }
 
   private user = new Subject<User>();
   public user$ = this.user.asObservable();
@@ -84,8 +92,8 @@ export class AuthService {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
-        const user = result.user;
-        this.setUser(user);
+        // const user = result.user;
+        // this.setUser(user);
         this.router.navigate(['/profile']);
       })
       .catch((error) => {
