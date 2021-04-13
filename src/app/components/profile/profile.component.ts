@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { LoginStateService } from 'src/app/shared/services/login-state.service';
 import { UserDataService } from 'src/app/shared/services/user-data.service';
 import { User } from '../../shared/interfaces/user';
@@ -11,7 +12,7 @@ import { User } from '../../shared/interfaces/user';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(public uds: UserDataService, public router: Router, public stateService: LoginStateService) { }
+  constructor(public uds: UserDataService, public router: Router, public stateService: LoginStateService, public auth: AuthService) { }
 
   isLoggedIn: boolean;
   publicUser: any;
