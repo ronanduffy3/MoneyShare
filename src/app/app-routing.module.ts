@@ -8,7 +8,10 @@ import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth
 import { ProfileComponent } from './components/profile/profile.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { AdminComponent } from './components/admin/admin.component';
+<<<<<<< HEAD
 import { AdminGuard } from './shared/guards/admin.guard';
+=======
+>>>>>>> c57cf1dae7839609b006f6d2d96482f6eea5bf0b
 
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
@@ -24,7 +27,11 @@ const routes: Routes = [
   data: { authGuardPipe: redirectUnauthorizedToLogin }},
   {path: 'ticket', component: ContactComponent, canActivate: [AngularFireAuthGuard],
   data: { authGuardPipe: redirectUnauthorizedToLogin }},
+<<<<<<< HEAD
   {path: 'admin', component: AdminComponent, canActivate: [AdminGuard],
+=======
+  {path: 'admin', component: AdminComponent, canActivate: [AngularFireAuthGuard],
+>>>>>>> c57cf1dae7839609b006f6d2d96482f6eea5bf0b
   data: { authGuardPipe: redirectUnauthorizedToLogin }},
 
 ];

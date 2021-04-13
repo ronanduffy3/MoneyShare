@@ -15,6 +15,7 @@ export class ContactComponent implements OnInit {
   }
 
   submitTicket(title: string, body: string, uid: string) {
+    window.alert('Ticket submitted, an admin will review, thank you!');
     this.tService.createTicket(title, body, uid);
   }
 

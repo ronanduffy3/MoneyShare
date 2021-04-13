@@ -1,1 +1,25 @@
-<p>admin works!</p>
+<section class="">
+    <div class="container-fluid">
+      <h1>Active Tickets</h1>
+      <table class="table-striped w-100 table-bordered">
+        <thead>
+        <tr>
+          <th scop="col"> ID </th>
+          <th scope="col"> Title </th>
+          <th scope="col"> Body</th>
+          <th scope="col"> Submitted by </th>
+          <th scope="col"> Complete </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let ticket of ticketListNotCompleted" >
+          <th scope="row">{{ticket.id}}</th>
+          <td>{{ticket.title}}</td>
+          <td>{{ticket.body}}</td>
+          <td>{{ticket.uid}}</td>       
+          <td>Complete Ticket</td>          
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>

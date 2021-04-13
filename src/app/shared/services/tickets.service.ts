@@ -1,19 +1,33 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Ticket } from '../interfaces/tickets';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TicketsService {
 
-  constructor(public fireStore: AngularFirestore) { }
+  ticketListCompleted: AngularFireList<Ticket>;
+  ticketListNotCompleted: AngularFireList<Ticket>;
+
+  constructor(public fireStore: AngularFirestore, public db: AngularFireDatabase) {
+    this.ticketListCompleted = this.db.list('tickets', ref => ref.orderByChild('completed').equalTo('true'));
+    console.log(this.ticketListCompleted);
+    this.ticketListNotCompleted = this.db.list('tickets', ref => ref.orderByChild('completed').equalTo('false'));
+    this.ticketListCompleted.valueChanges().subscribe(ticket => console.log(ticket.toString()));
+   }
 
   documentCounter: number;
   ticketToAdd: Ticket;
 
-  getTickets() {
-    return this.fireStore.collection('tickets').snapshotChanges();
+
+  getTicketsCompeted() {
+    return this.ticketListCompleted;
+  }
+
+  getTicketsNotCompleted() {
+    return this.ticketListNotCompleted;
   }
 
   createTicket(tTitle: string, tBody: string, tUid: string) {
@@ -26,8 +40,8 @@ export class TicketsService {
       title : tTitle,
       body : tBody,
       uid: tUid,
-      id : this.documentCounter,
-      completed: false
+      id : 1,
+
     };
 
     return this.fireStore.collection('tickets').add(this.ticketToAdd);
